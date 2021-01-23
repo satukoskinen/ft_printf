@@ -10,13 +10,14 @@ The format string is composed of zero or more *directives*: either ordinary char
 ```
 Flags, minimum field width, precision and length modifier are optional. At its simplest, the conversion specification is of the form `%[conversion type]`, e.g. `%d`. `%%` produces the % character.
 
-|Conversion type|Length modifier|Third|fourth|
-|-----|-----|-----|-|
+|Conversion type|Length modifier|Precision|Min. field width|Flags|
+|-|-|-|-|-|
 |`d`, `i` : signed decimal|`default`: int</br>`h`: short</br>`hh`: signed char</br>`l`: long</br>`ll`: long long|Content|
 |`o` : unsigned octal|`default`: unsigned int</br>`h`: unsigned short</br>`hh`: unsigned char</br>`l`: unsigned long</br>`ll`: unsigned long long|Content|
 |`u` : unsigned decimal|-"-|Content|
 |`x`, `X` : unsigned</br>hexadecimal|-"-|Content|
-
+|`c` : char (int converted</br>to unsigned char)|`default`: int|-|-|-|
+|`s` : character string </br>(pointer to char array)|`default`: char*|maximum number of</br>characters to print|-|-|
 
 
 - self-promoting types / default argument promotions
