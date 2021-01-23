@@ -1,97 +1,36 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ft_printf.h"
-#include "libft.h"
+#include "tests.h"
 
-int		main(void)
+int		main(int argc, char **argv)
 {
-	int		ret;
-	int		*test_pointer;
+	int		use_ftprintf;
+	int		tests;
+	int		max_tests;
 
-	test_pointer = &ret;
-	ret = printf("testing %%\n");
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %%\n");
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing string '%s' %%\n", "tester123456789");
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing string '%s' %%\n", "tester123456789");
-	printf("ret is %d\n", ret);
+	tests = 0;
+	max_tests = 0;
+	if (argc == 1 || (argc > 1 && strcmp(argv[1], "ftprintf") == 0))
+		use_ftprintf = 1;
+	else
+		use_ftprintf = 0;
+	if (argc == 1 || (argc > 1 && strcmp(argv[1], "all") == 0) || (argc > 2 && strcmp(argv[2], "all") == 0))
+	{
+		tests += test_strings(use_ftprintf);
+		tests += test_signed_integers(use_ftprintf);
+		tests += test_unsigned_integers(use_ftprintf);
+	}
+	else if ((argc > 1 && strcmp(argv[1], "strings") == 0) || (argc > 2 && strcmp(argv[2], "strings") == 0))
+		tests = test_strings(use_ftprintf);
+	else if ((argc > 1 && strcmp(argv[1], "ints") == 0) || (argc > 2 && strcmp(argv[2], "ints") == 0))
+		tests = test_signed_integers(use_ftprintf);
+	else if ((argc > 1 && strcmp(argv[1], "uints") == 0) || (argc > 2 && strcmp(argv[2], "uints") == 0))
+		tests = test_unsigned_integers(use_ftprintf);
 	
-	ret = printf("harder tests for %%.5s: '%.5s' %%s: '%s'\n%s\n%.100s\n", "adfghjklö", "asdfghjklö", "#saldka384972384edslnaclsalkc", "asdfg");
-	printf("ret is %d\n", ret);
-	ret = ft_printf("harder tests for %%.5s: '%.5s' %%s: '%s'\n%s\n%.100s\n", "adfghjklö", "asdfghjklö", "#saldka384972384edslnaclsalkc", "asdfg");
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing string '%.5s' %%\n", "tester123456789");
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing string '%.5s' %%\n", "tester123456789");
-	printf("ret is %d\n", ret);
-/*
-	ret = printf("non-supported conversion %b\n", "test");
-	printf("ret is %d\n", ret);
-
-	ret = printf("wrong argument %s\n", 1);
-	printf("ret is %d\n", ret);
-*/
-	ret = printf("testing %% %d %i\n", 42, 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %% %d %i\n", 42, 42);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %o\n", 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %o\n", 42);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %% %x %X\n", 42, 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %% %x %X\n", 42, 42);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %% %d %+i % d\n", 42, 2147483647, -2147483647 - 1);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %% %d %+i % d\n", 42, 2147483647, -2147483647 - 1);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %o\n", 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %o\n", 42);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %% %x %X\n", 42, 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %% %x %X\n", 42, 42);
-	printf("ret is %d\n", ret);
-
-	ret = printf("testing %% %d %i %o %u %x %X\n", -42, -42, 42, 42, 42, 42);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %% %d %i %o %u %x %X\n", -42, -42, 42, 42, 42, 42);
-	printf("ret is %d\n", ret);
-
-	printf("test precision '%f'\n", (double)42);
-
-	ret = printf("flag with zero '%-10.8d'\n", -123423);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("flag with zero '%-10.8d'\n", -123423);
-	printf("ret is %d\n", ret);
-
-	ret = printf("flag with zero '%#10.5o'\n", 123423);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("flag with zero '%#10.5o'\n", 123423);
-	printf("ret is %d\n", ret);
-	
-	ret = printf("char '%-10c'\n", 'c');
-	printf("ret is %d\n", ret);
-	ret = ft_printf("char '%-10c'\n", 'c');
-	printf("ret is %d\n", ret);
-	/*
-	ret = printf("testing %%p %p\n", test_pointer);
-	printf("ret is %d\n", ret);
-	ret = ft_printf("testing %%p %p\n", test_pointer);
-	printf("ret is %d\n", ret);
-
-	ft_putstr(ft_uintmax_itoa_base((uintmax_t)test_pointer, 16));
-*/
-//	while(1);
+	printf("Passed a total of %d tests out of %d\n", tests, max_tests);
+	if (argc > 1 && strcmp(argv[argc - 1], "leaks") == 0)
+		system("leaks test_exe");
+	return (0);
 }
