@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:56:17 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 09:44:32 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/22 15:55:01 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ size_t	add_prefix(t_data *specs, char *result)
 	else if ((specs->conversion == 'd' || specs->conversion == 'i') &&
 			(specs->blank_signed || specs->plus_signed))
 		result[i++] = specs->plus_signed ? '+' : ' ';
-	else if (specs->conversion == 'x' && specs->alt_form)
+	else if (specs->conversion == 'x' && specs->alt_form && !specs->is_zero)
 	{
 		result[i++] = '0';
 		result[i++] = 'x';
 	}
-	else if (specs->conversion == 'X' && specs->alt_form)
+	else if (specs->conversion == 'X' && specs->alt_form && !specs->is_zero)
 	{
 		result[i++] = '0';
 		result[i++] = 'X';

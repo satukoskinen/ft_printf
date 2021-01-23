@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 09:06:28 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 09:44:44 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:19:36 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,15 @@ int					parse_unsigned_ints(t_data *specs, va_list *ap)
 	value = get_unsigned_arg(specs, ap);
 	number = get_value_string(specs, value);
 	result_len = ft_strlen(number);
+	specs->is_zero = (value == 0) ? 1 : 0;
 	if (specs->precision > 0)
 		specs->zero_padding = 0;
 	specs->precision = (specs->precision > result_len) ?
 		(specs->precision - result_len) : 0;
 	result_len += specs->precision;
-	if (specs->alt_form && (specs->conversion == 'x' || specs->conversion == 'X'))
+	if (specs->alt_form && (specs->conversion == 'x' || specs->conversion == 'X') && !specs->is_zero)
 		result_len += 2;
-	if (specs->alt_form && specs->conversion == 'o' && specs->precision == 0)
+	if (specs->alt_form && specs->conversion == 'o' && specs->precision == 0 && !specs->is_zero)
 		result_len += ++specs->precision;
 	specs->min_field_width = (specs->min_field_width > result_len) ?
 		(specs->min_field_width - result_len) : 0;

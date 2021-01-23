@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:39:54 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 09:44:37 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:11:40 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int				parse_signed_ints(t_data *specs, va_list *ap)
 	value = get_signed_arg(specs, ap);
 	number = ft_intmax_itoa_base(value, 10);
 	result_len = ft_strlen(number);
-	specs->is_negative = value < 0 ? 1 : 0;
+	specs->is_zero = (value == 0) ? 1 : 0;
+	specs->is_negative = (value < 0) ? 1 : 0;
 	if (specs->precision > 0)
 		specs->zero_padding = 0;
 	specs->precision = (specs->precision > result_len - specs->is_negative) ?

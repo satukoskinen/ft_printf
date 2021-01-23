@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:40:23 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 10:07:20 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:35:41 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	*parse_str_result(t_data *specs, char *str, size_t str_len)
 	size_t	i;
 	size_t	j;
 	char	*result;
+
 
 	result_len = str_len + specs->min_field_width;
 	if (!(result = (char*)malloc(sizeof(char) * (result_len + 1))))

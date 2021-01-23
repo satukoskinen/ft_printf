@@ -6,7 +6,7 @@
 #    By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/05 09:43:48 by skoskine          #+#    #+#              #
-#    Updated: 2021/01/21 18:53:59 by skoskine         ###   ########.fr        #
+#    Updated: 2021/01/23 14:36:56 by skoskine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,11 @@ CFLAGS = -c -Wall -Wextra -Werror -g
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(MAKE) -C libft
-	ar rcs $@ $(OBJS)
+	@$(MAKE) -C libft
+	@ar rcs $@ $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -o $@ $< $(INCLUDES)
+	@$(CC) $(CFLAGS) -o $@ $< $(INCLUDES)
 
 clean:
 	rm -f $(OBJS)
