@@ -12,12 +12,12 @@ Flags, minimum field width, precision and length modifier are optional. At its s
 
 |Conversion type|Length modifier|Precision|Min. field width|Flags|
 |-|-|-|-|-|
-|`d`, `i` : signed decimal|`default`: int</br>`h`: short</br>`hh`: signed char</br>`l`: long</br>`ll`: long long|-|-|`+`</br>`' '`</br>`0`</br>`-`
-|`o` : unsigned octal|`default`: unsigned int</br>`h`: unsigned short</br>`hh`: unsigned char</br>`l`: unsigned long</br>`ll`: unsigned long long|-|-|`#`</br>`0`</br>`-`</br>|
-|`u` : unsigned decimal|-"-|-|-|`0`</br>`-`</br>|
+|`d`, `i` : signed</br>decimal|`default`: int</br>`h`: short</br>`hh`: signed char</br>`l`: long</br>`ll`: long long|-|-|`+`</br>`' '`</br>`0`</br>`-`
+|`o` : unsigned</br>octal|`default`: unsigned int</br>`h`: unsigned short</br>`hh`: unsigned char</br>`l`: unsigned long</br>`ll`: unsigned long long|-|-|`#`</br>`0`</br>`-`</br>|
+|`u` : unsigned</br>decimal|-"-|-|-|`0`</br>`-`</br>|
 |`x`, `X` : unsigned</br>hexadecimal|-"-|-|-|`#`</br>`0`</br>`-`</br>|
-|`c` : char (int converted</br>to unsigned char)|`default`: int|-|-|`-`|
-|`s` : character string </br>(pointer to char array)|`default`: char*|maximum number</br>of characters to print|-|`-`|
+|`c` : char (int</br>converted to</br>unsigned char)|`default`: int|-|-|`-`|
+|`s` : character</br>string (pointer</br>to char array)|`default`: char*|maximum number</br>of characters to print|-|`-`|
 
 
 - self-promoting types / default argument promotions
