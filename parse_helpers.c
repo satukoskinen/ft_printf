@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:56:17 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 15:55:01 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/25 20:51:55 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ size_t	add_prefix(t_data *specs, char *result)
 	i = 0;
 	if (specs->is_negative)
 		result[i++] = '-';
-	else if ((specs->conversion == 'd' || specs->conversion == 'i') &&
-			(specs->blank_signed || specs->plus_signed))
+	else if (ft_strchr("difF", specs->conversion) &&
+	(specs->blank_signed || specs->plus_signed))
 		result[i++] = specs->plus_signed ? '+' : ' ';
 	else if (specs->conversion == 'x' && specs->alt_form && !specs->is_zero)
 	{
@@ -70,14 +70,17 @@ char	*parse_int_result(t_data *specs, char *number, size_t result_len)
 	if (!(result = (char*)malloc(sizeof(char) * (result_len + 1))))
 		return (NULL);
 	i = 0;
-	if (specs->min_field_width > 0 && !specs->zero_padding && !specs->neg_field_width)
+	if (specs->min_field_width > 0 && !specs->zero_padding &&
+	!specs->neg_field_width)
 		i += add_padding(specs->min_field_width, ' ', &result[i]);
 	i += add_prefix(specs, &result[i]);
-	if (specs->min_field_width > 0 && specs->zero_padding && !specs->neg_field_width)
+	if (specs->min_field_width > 0 && specs->zero_padding &&
+	!specs->neg_field_width)
 		i += add_padding(specs->min_field_width, '0', &result[i]);
-	while (specs->precision-- > 0)
-		result[i++] = '0';
-	i += add_number(specs, number, &result[i]);
+	if (specs->precision > 0)
+		i += add_padding(specs->precision, '0', &result[i]);
+	if (!(specs->has_precision && specs->precision == 0 && specs->is_zero))
+		i += add_number(specs, number, &result[i]);
 	if (specs->min_field_width > 0 && specs->neg_field_width)
 		i += add_padding(specs->min_field_width, ' ', &result[i]);
 	result[i] = '\0';

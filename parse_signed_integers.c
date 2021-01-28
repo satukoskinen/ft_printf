@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:39:54 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 16:11:40 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:17:23 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,22 @@ static intmax_t	get_signed_arg(t_data *specs, va_list *ap)
 	return (value);
 }
 
-int				parse_signed_ints(t_data *specs, va_list *ap)
+int				parse_signed_ints(t_data *specs, va_list *ap, char **result)
 {
 	intmax_t	value;
 	char		*number;
-	char		*result;
 	size_t		result_len;
 
 	value = get_signed_arg(specs, ap);
-	number = ft_intmax_itoa_base(value, 10);
-	result_len = ft_strlen(number);
+	if (!(number = ft_intmax_itoa_base(value, 10)))
+		return (-1);
 	specs->is_zero = (value == 0) ? 1 : 0;
 	specs->is_negative = (value < 0) ? 1 : 0;
-	if (specs->precision > 0)
+	if (specs->is_zero && specs->has_precision && specs->precision == 0)
+		result_len = 0;
+	else
+		result_len = ft_strlen(number);
+	if (specs->has_precision)
 		specs->zero_padding = 0;
 	specs->precision = (specs->precision > result_len - specs->is_negative) ?
 		(specs->precision - result_len + specs->is_negative) : 0;
@@ -53,8 +56,7 @@ int				parse_signed_ints(t_data *specs, va_list *ap)
 	specs->min_field_width = (specs->min_field_width > result_len) ?
 		(specs->min_field_width - result_len) : 0;
 	result_len += specs->min_field_width;
-	result = parse_int_result(specs, number, result_len);
+	*result = parse_int_result(specs, number, result_len);
 	free(number);
-	ft_putstr(result);
-	return (result_len);
+	return ((*result != NULL) ? result_len : -1);
 }

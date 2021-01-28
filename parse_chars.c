@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:40:23 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/23 14:35:41 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:11:03 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ static char	*parse_str_result(t_data *specs, char *str, size_t str_len)
 	size_t	j;
 	char	*result;
 
-
 	result_len = str_len + specs->min_field_width;
 	if (!(result = (char*)malloc(sizeof(char) * (result_len + 1))))
 		return (NULL);
 	i = 0;
-	if (specs->min_field_width > 0 && !specs->neg_field_width)
+	if (specs->min_field_width > 0 && !specs->zero_padding &&
+		!specs->neg_field_width)
 		i += add_padding(specs->min_field_width, ' ', &result[i]);
+	else if (specs->min_field_width > 0 && specs->zero_padding &&
+		!specs->neg_field_width)
+		i += add_padding(specs->min_field_width, '0', &result[i]);
 	j = 0;
 	while (j < str_len)
 		result[i++] = str[j++];
@@ -37,38 +40,42 @@ static char	*parse_str_result(t_data *specs, char *str, size_t str_len)
 	return (result);
 }
 
-int			parse_string(t_data *specs, char *str)
+int			parse_string(t_data *specs, char *str, char **result)
 {
 	size_t	i;
-	char	*result;
 
 	if (str == NULL)
 	{
 		i = 6;
 		specs->min_field_width = (specs->min_field_width > i) ?
 			(specs->min_field_width - 6) : 0;
-		result = parse_str_result(specs, "(null)", i);
+		*result = parse_str_result(specs, "(null)", i);
 	}
 	else
 	{
 		i = 0;
-		while ((specs->precision == 0 || i < specs->precision) && str[i] != '\0')
+		while ((!specs->has_precision || i < specs->precision)
+		&& str[i] != '\0')
 			i++;
 		specs->min_field_width = (specs->min_field_width > i) ?
 			(specs->min_field_width - i) : 0;
-		result = parse_str_result(specs, str, i);
+		*result = parse_str_result(specs, str, i);
 	}
-	ft_putstr(result);
-	return (ft_strlen(result));
+	if (*result == NULL)
+		return (-1);
+	else
+		return (ft_strlen(*result));
 }
 
-int			parse_char(t_data *specs, char c)
+int			parse_char(t_data *specs, char c, char **result)
 {
-	char	*result;
-	
 	specs->min_field_width = (specs->min_field_width > 1) ?
 		(specs->min_field_width - 1) : 0;
-	result = parse_str_result(specs, &c, 1);
-	ft_putstr(result);
-	return (1);
+	if (!(*result = parse_str_result(specs, &c, 1)))
+		return (-1);
+	return (ft_strlen(*result));}
+
+int			parse_percentage(t_data *specs, char **result)
+{
+	return (parse_char(specs, '%', result));
 }

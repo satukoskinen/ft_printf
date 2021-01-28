@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 21:28:07 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 09:30:55 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/24 21:45:07 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		get_precision(t_data *specs, const char *format)
 	int	i;
 
 	i = 1;
+	specs->has_precision = 1;
 	specs->precision = ft_atoi(&format[i]);
 	while (ft_isdigit(format[i]))
 		i++;
@@ -81,11 +82,6 @@ int		get_conversion_specs(t_data *specs, const char *format)
 {
 	int i;
 
-	if (format[0] == '%')
-	{
-		specs->is_percentage = 1;
-		return (1);
-	}
 	i = get_flags(specs, format);
 	if (ft_isdigit(format[i]))
 		i += get_min_field_width(specs, &format[i]);

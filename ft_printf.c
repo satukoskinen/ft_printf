@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 09:35:01 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 10:03:22 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/26 13:50:16 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,66 +15,97 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int				parse_conversion(t_data *specs, va_list *ap)
+static int	parse_conversion(t_data *specs, va_list *ap, char **result)
 {
 	int		ret;
 
 	ret = 1;
-	if (specs->is_percentage == 1)
-		write(1, "%", 1);
+	if (specs->conversion == '%')
+		ret = parse_percentage(specs, result);
 	else if (specs->conversion == 'c')
-		ret = parse_char(specs, va_arg(*ap, int));
+		ret = parse_char(specs, va_arg(*ap, int), result);
 	else if (specs->conversion == 's')
-		ret = parse_string(specs, va_arg(*ap, char*));
+		ret = parse_string(specs, va_arg(*ap, char*), result);
 	else if (specs->conversion == 'p')
-		ret = parse_pointer(specs, ap);
+		ret = parse_pointer(specs, va_arg(*ap, void*), result);
 	else if (ft_strchr("di", specs->conversion))
-		ret = parse_signed_ints(specs, ap);
+		ret = parse_signed_ints(specs, ap, result);
 	else if (ft_strchr("ouxX", specs->conversion))
-		ret = parse_unsigned_ints(specs, ap);
+		ret = parse_unsigned_ints(specs, ap, result);
 	else if (ft_strchr("fF", specs->conversion))
-		ret = parse_doubles(specs, ap);
+		ret = parse_doubles(specs, ap, result); 
 	else
 		ret = -1;
 	return (ret);
 }
 
-static int		parse(const char *format, va_list *ap)
+static int	append_to_result(char **result, int ret, int str_len, char *str)
+{
+	static int	arr_size = 100;
+
+	if (str_len == -1)
+		return (-1);
+	if (*result == NULL)
+	{
+		if (!(*result = ft_memalloc(arr_size + 1)))
+			return (-1);
+	}
+	if (ret + str_len > arr_size)
+	{
+		if (!(*result = ft_realloc(*result, arr_size,
+		arr_size * 2 + str_len + 1)))
+			return (-1);
+		arr_size = arr_size * 2 + str_len;
+	}
+	ft_memcpy(&(*result)[ret], str, str_len);
+	return (str_len);
+}
+
+static int	parse(const char *format, va_list *ap, char **result)
 {
 	int		i;
 	int		ret;
+	int		conv_len;
+	char	*conversion;
 	t_data	*conversion_specs;
 
 	i = 0;
 	ret = 0;
 	if (!(conversion_specs = (t_data*)malloc(sizeof(t_data))))
 		return (-1);
-	while (format[i])
+	while (format[i] && ret != -1)
 	{
 		if (format[i] == '%')
 		{
 			ft_memset((void*)conversion_specs, 0, sizeof(t_data));
 			i += get_conversion_specs(conversion_specs, &format[i + 1]);
-			ret += parse_conversion(conversion_specs, ap);
+			conv_len = parse_conversion(conversion_specs, ap, &conversion);
+			conv_len = append_to_result(result, ret, conv_len, conversion);
+			free(conversion);
 		}
 		else
-		{
-			write(1, &format[i], 1);
-			ret++;
-		}
+			conv_len = append_to_result(result, ret, 1, (char*)&format[i]);
 		i++;
+		ret = (conv_len == -1) ? -1 : ret + conv_len;
 	}
+	if (i == 0)
+		*result = ft_strdup("");
 	free(conversion_specs);
 	return (ret);
 }
 
-int				ft_printf(const char *format, ...)
+int			ft_printf(const char *format, ...)
 {
 	va_list	ap;
+	char	*result;
 	int		ret;
 
+	result = NULL;
 	va_start(ap, format);
-	ret = parse(format, &ap);
+	ret = parse(format, &ap, &result);
 	va_end(ap);
+	if (result != NULL)
+		ft_putstr(result);
+	free(result);
 	return (ret);
 }

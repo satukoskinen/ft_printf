@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 09:06:28 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/22 16:19:36 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/01/25 21:17:15 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,39 +46,33 @@ static uintmax_t	get_unsigned_arg(t_data *specs, va_list *ap)
 	return (value);
 }
 
-int					parse_unsigned_ints(t_data *specs, va_list *ap)
+int					parse_unsigned_ints(t_data *specs, va_list *ap,
+char **result)
 {
 	uintmax_t	value;
 	char		*number;
-	char		*result;
 	size_t		result_len;
 
 	value = get_unsigned_arg(specs, ap);
-	number = get_value_string(specs, value);
-	result_len = ft_strlen(number);
+	if (!(number = get_value_string(specs, value)))
+		return (-1);
 	specs->is_zero = (value == 0) ? 1 : 0;
-	if (specs->precision > 0)
-		specs->zero_padding = 0;
+	result_len = (specs->is_zero && specs->has_precision &&
+		specs->precision == 0) ? 0 : ft_strlen(number);
+	specs->zero_padding = (specs->has_precision) ? 0 : specs->zero_padding;
 	specs->precision = (specs->precision > result_len) ?
 		(specs->precision - result_len) : 0;
 	result_len += specs->precision;
-	if (specs->alt_form && (specs->conversion == 'x' || specs->conversion == 'X') && !specs->is_zero)
+	if (specs->alt_form && (specs->conversion == 'x' ||
+		specs->conversion == 'X') && !specs->is_zero)
 		result_len += 2;
-	if (specs->alt_form && specs->conversion == 'o' && specs->precision == 0 && !specs->is_zero)
+	if (specs->alt_form && specs->conversion == 'o' &&
+		specs->precision == 0 && !specs->is_zero)
 		result_len += ++specs->precision;
 	specs->min_field_width = (specs->min_field_width > result_len) ?
 		(specs->min_field_width - result_len) : 0;
 	result_len += specs->min_field_width;
-	result = parse_int_result(specs, number, result_len);
+	*result = parse_int_result(specs, number, result_len);
 	free(number);
-	ft_putstr(result);
-	return (ft_strlen(result));
-}
-
-int					parse_pointer(t_data *specs, va_list *ap)
-{
-	specs->length_modifier[0] = 'l';
-	specs->conversion = 'x';
-	specs->alt_form = 1;
-	return (parse_unsigned_ints(specs, ap));
+	return ((*result != NULL) ? result_len : -1);
 }
