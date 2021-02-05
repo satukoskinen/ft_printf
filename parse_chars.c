@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:40:23 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/25 21:11:03 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/02 18:46:28 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int			parse_char(t_data *specs, char c, char **result)
 		(specs->min_field_width - 1) : 0;
 	if (!(*result = parse_str_result(specs, &c, 1)))
 		return (-1);
-	return (ft_strlen(*result));}
+	return (specs->min_field_width + 1);
+}
 
 int			parse_percentage(t_data *specs, char **result)
 {

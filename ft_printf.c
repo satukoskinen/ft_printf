@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 09:35:01 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/26 13:50:16 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/02 09:57:44 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,17 @@ static int	parse(const char *format, va_list *ap, char **result)
 	return (ret);
 }
 
+int			ft_vasprintf(char **ret, const char *format, va_list ap)
+{
+	int		ret_value;
+	va_list	ap_copy;
+
+	va_copy(ap_copy, ap);
+	ret_value = parse(format, &ap_copy, ret);
+	va_end(ap_copy);
+	return (ret_value);
+}
+
 int			ft_printf(const char *format, ...)
 {
 	va_list	ap;
@@ -102,10 +113,37 @@ int			ft_printf(const char *format, ...)
 
 	result = NULL;
 	va_start(ap, format);
-	ret = parse(format, &ap, &result);
+	ret = ft_vasprintf(&result, format, ap);
 	va_end(ap);
-	if (result != NULL)
-		ft_putstr(result);
+	if (ret != 1)
+		write(1, result, ret);
 	free(result);
 	return (ret);
+}
+
+int			ft_dprintf(int fd, const char *format, ...)
+{
+	va_list	ap;
+	char	*result;
+	int		ret;
+
+	result = NULL;
+	va_start(ap, format);
+	ret = ft_vasprintf(&result, format, ap);
+	va_end(ap);
+	if (ret != 1)
+		write(fd, result, ret);
+	free(result);
+	return (ret);
+}
+
+int			ft_asprintf(char **ret, const char *format, ...)
+{
+	va_list	ap;
+	int		ret_value;
+
+	va_start(ap, format);
+	ret_value = ft_vasprintf(ret, format, ap);
+	va_end(ap);
+	return (ret_value);
 }
