@@ -63,15 +63,15 @@ else
 fi
 
 printf "\nTesting unsigned integers... "
-{ ./test_exe ft_printf uints > user_output; } 2> err_output
+{ ./test_exe ft_printf uints > user_output3; } 2> err_output
 if [ $? != 0 ]
 then
 	printf "seg fault"
 	#cat err_output
 	exit 1
 fi
-./test_exe printf uints > test_output
-diff --text --suppress-common-lines -p user_output test_output > diff
+./test_exe printf uints > test_output3
+diff --text --suppress-common-lines -p user_output3 test_output3 > diff
 if [ -s diff ]
 then
 	printf "error\n\n"
@@ -90,9 +90,9 @@ then
 	exit 1
 fi
 line_count=$(./ptr_exe | wc -l | sed "s/ //g")
-head -n $(( $line_count/2 )) ptr_output > user_output
-tail -n $(( $line_count/2 )) ptr_output > test_output
-diff --text --suppress-common-lines -p user_output test_output > diff
+head -n $(( $line_count/2 )) ptr_output > user_output4
+tail -n $(( $line_count/2 )) ptr_output > test_output4
+diff --text --suppress-common-lines -p user_output4 test_output4 > diff
 if [ -s diff ]
 then
 	printf "error\n\n"
