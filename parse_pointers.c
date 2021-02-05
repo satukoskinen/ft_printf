@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 19:08:42 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/25 21:10:32 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:30:18 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			parse_pointer(t_data *specs, void *ptr, char **result)
 	size_t		result_len;
 
 	value = (uintmax_t)ptr;
-	if(!(number = ft_uintmax_itoa_base(value, 16, 0)))
+	if (!(number = ft_uintmax_itoa_base(value, 16, 0)))
 		return (-1);
 	result_len = ft_strlen(number) + 2;
 	specs->conversion = 'x';

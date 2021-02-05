@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/20 09:06:28 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/25 21:17:15 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/05 21:50:13 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ char **result)
 	if (!(number = get_value_string(specs, value)))
 		return (-1);
 	specs->is_zero = (value == 0) ? 1 : 0;
-	result_len = (specs->is_zero && specs->has_precision &&
-		specs->precision == 0) ? 0 : ft_strlen(number);
+	if (specs->has_precision && specs->precision == 0)
+		specs->zero_precision = 1;
+	result_len = (specs->is_zero && specs->zero_precision) ? 0 : ft_strlen(number);
 	specs->zero_padding = (specs->has_precision) ? 0 : specs->zero_padding;
 	specs->precision = (specs->precision > result_len) ?
 		(specs->precision - result_len) : 0;
@@ -67,7 +68,7 @@ char **result)
 		specs->conversion == 'X') && !specs->is_zero)
 		result_len += 2;
 	if (specs->alt_form && specs->conversion == 'o' &&
-		specs->precision == 0 && !specs->is_zero)
+		specs->precision == 0 && (!specs->is_zero || specs->zero_precision))
 		result_len += ++specs->precision;
 	specs->min_field_width = (specs->min_field_width > result_len) ?
 		(specs->min_field_width - result_len) : 0;

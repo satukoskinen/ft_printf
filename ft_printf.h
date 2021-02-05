@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 09:35:48 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/25 20:56:49 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:22:55 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef	struct	s_data
 	size_t		min_field_width;
 	int			has_precision;
 	size_t		precision;
+	int			zero_precision;
 	char		length_modifier[3];
 	char		conversion;
 	int			is_negative;
