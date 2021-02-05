@@ -17,6 +17,7 @@ int		main(int argc, char **argv)
 		test_strings(use_ftprintf);
 		test_signed_integers(use_ftprintf);
 		test_unsigned_integers(use_ftprintf);
+		test_pointers();
 	}
 	else if ((argc > 1 && strcmp(argv[1], "strings") == 0) || (argc > 2 && strcmp(argv[2], "strings") == 0))
 		test_strings(use_ftprintf);
@@ -24,6 +25,8 @@ int		main(int argc, char **argv)
 		test_signed_integers(use_ftprintf);
 	else if ((argc > 1 && strcmp(argv[1], "uints") == 0) || (argc > 2 && strcmp(argv[2], "uints") == 0))
 		test_unsigned_integers(use_ftprintf);
+	else if (argc > 1 && strcmp(argv[1], "ptrs") == 0)
+		test_pointers();
 	
 	if (argc > 1 && strcmp(argv[argc - 1], "leaks") == 0)
 		system("leaks test_exe");

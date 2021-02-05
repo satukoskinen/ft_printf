@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:07:50 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/24 21:49:16 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/02 20:13:51 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	test_strings(int use_ftprintf)
 	else
 		printf_ptr = printf;
 
+	/* Test format strings without arguments */
+
 	ret = printf_ptr("print without arguments\n");
 	printf_ptr("ret is %d\n", ret);
 
@@ -39,6 +41,8 @@ void	test_strings(int use_ftprintf)
 	ret = printf_ptr("print percentage: '%-10.10%' and '%05%'\n");
 	printf_ptr("ret is %d\n", ret);
 
+	/* Test strings %s */
+
 	ret = printf_ptr("testing string '%s' %%\n", "tester123456789");
 	printf_ptr("ret is %d\n", ret);
 
@@ -48,28 +52,28 @@ void	test_strings(int use_ftprintf)
 	ret = printf_ptr("testing string '%.5s' %%\n", "tester123456789");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%s'\n", "");
+	ret = printf_ptr("testing empty string '%s'\n", "");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%10s'\n", "");
+	ret = printf_ptr("testing empty string '%10s'\n", "");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%.4s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%.4s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%.0s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%.0s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%5.4s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%5.4s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%5.0s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%5.0s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%-.4s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%-.4s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%-.0s'\n", unterminated_arr);
+	ret = printf_ptr("testing unterm string '%-.0s'\n", unterminated_arr);
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("testing string '%10.100s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
@@ -100,5 +104,25 @@ void	test_strings(int use_ftprintf)
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("usr:     f f f f:       >>>%s%s%s%s  string. gg!<<<\n", "this", "is", "a", "multi");
+	printf_ptr("ret is %d\n", ret);
+
+	/* Test chars %c */
+
+	ret = printf_ptr("print null character '%c'\n", '\0');
+	printf_ptr("ret is %d\n", ret);
+
+	ret = printf_ptr("character tests: '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c'\n", 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't');
+	printf_ptr("ret is %d\n", ret);
+
+	ret = printf_ptr("character tests: '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c'\n", '1', '2', '3', '4', '5', '0', '*', '%', ' ', '\t', '\n', '-', 0, 47, 126, 125, 124, 123, 33, 34);
+	printf_ptr("ret is %d\n", ret);
+
+	ret = printf_ptr("print character '%010c'\n", '*');
+	printf_ptr("ret is %d\n", ret);
+
+	ret = printf_ptr("print character '%-010c'\n", '*');
+	printf_ptr("ret is %d\n", ret);
+
+	ret = printf_ptr("char '%-10c'\n", 'c');
 	printf_ptr("ret is %d\n", ret);
 }
