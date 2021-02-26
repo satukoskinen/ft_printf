@@ -6,7 +6,7 @@
 #    By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/05 09:43:48 by skoskine          #+#    #+#              #
-#    Updated: 2021/02/25 19:35:05 by skoskine         ###   ########.fr        #
+#    Updated: 2021/02/26 13:43:28 by skoskine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ CFLAGS = -c -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(OBJ_DIR) $(LIBFT)
+$(NAME): $(OBJ_DIR) $(OBJS) $(LIBFT)
 	@ar rcs $@ $(OBJS)
 
 $(LIBFT): $(LIBFT_DIR)
