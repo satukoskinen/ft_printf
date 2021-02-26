@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 17:07:50 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/02 20:13:51 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/20 18:24:16 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	test_strings(int use_ftprintf)
 		printf_ptr = ft_printf;
 	else
 		printf_ptr = printf;
+
+	printf_ptr("---------------------------\n");
+	printf_ptr("Basic tests for %%s and %%c\n");
+	printf_ptr("---------------------------\n");
 
 	/* Test format strings without arguments */
 
@@ -79,22 +83,22 @@ void	test_strings(int use_ftprintf)
 	ret = printf_ptr("testing string '%10.100s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%0100.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
+	ret = printf_ptr("testing string '%100.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%-0100.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
+	ret = printf_ptr("testing string '%-100.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%0-100.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
+	ret = printf_ptr("testing string '%-100.100s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%0100.s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
+	ret = printf_ptr("testing string '%100.s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing string '%-0100s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
+	ret = printf_ptr("testing string '%-100s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs");
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing multiple strings '%%' '%s' '%0-100.100s' '%010.5s' '%.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs", "ASDFGÖRESDVX", "sfja sdjasdcasd", "");
+	ret = printf_ptr("testing multiple strings '%%' '%s' '%-100.100s' '%10.5s' '%.10s'\n", "asfdkoapvifmepcruinuiosnruoawesrxuesxs", "ASDFGÖRESDVX", "sfja sdjasdcasd", "");
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("percentage string %s", "%");
@@ -117,12 +121,12 @@ void	test_strings(int use_ftprintf)
 	ret = printf_ptr("character tests: '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c' '%c'\n", '1', '2', '3', '4', '5', '0', '*', '%', ' ', '\t', '\n', '-', 0, 47, 126, 125, 124, 123, 33, 34);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("print character '%010c'\n", '*');
+	ret = printf_ptr("print character '%10c'\n", '*');
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("print character '%-010c'\n", '*');
+	ret = printf_ptr("print character '%-10c'\n", '*');
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("char '%-10c'\n", 'c');
+	ret = printf_ptr("char '%-100c'\n", 'c');
 	printf_ptr("ret is %d\n", ret);
 }

@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:05:09 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/02 20:42:09 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/21 10:47:24 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 void	test_pointers(void)
 {
-	int (*printf_ptr)(const char*, ...);
 	int	ret;
 	int	test_value;
 	int	*test_pointer;
-
-	printf_ptr = ft_printf;
+	int (*printf_ptr)(const char*, ...);
 
 	test_value = 42;
 	test_pointer = &test_value;
+
+	printf_ptr = ft_printf;
 
 	ret = printf_ptr("testing test_pointer %%p '%p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
@@ -34,22 +34,22 @@ void	test_pointers(void)
 	ret = printf_ptr("testing test_pointer %%p '%20p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%020p'\n", test_pointer);
+	ret = printf_ptr("testing test_pointer %%p '%200p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("testing test_pointer %%p '%-20p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%05p'\n", test_pointer);
+	ret = printf_ptr("testing test_pointer %%p '%5p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("testing test_pointer %%p '%p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%010p'\n", NULL);
+	ret = printf_ptr("testing test_pointer %%p '%-20p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%0p'\n", NULL);
+	ret = printf_ptr("testing test_pointer %%p '%5p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
 
 	printf_ptr = printf;
@@ -63,21 +63,21 @@ void	test_pointers(void)
 	ret = printf_ptr("testing test_pointer %%p '%20p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%020p'\n", test_pointer);
+	ret = printf_ptr("testing test_pointer %%p '%200p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("testing test_pointer %%p '%-20p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%05p'\n", test_pointer);
+	ret = printf_ptr("testing test_pointer %%p '%5p'\n", test_pointer);
 	printf_ptr("ret is %d\n", ret);
 
 	ret = printf_ptr("testing test_pointer %%p '%p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
 
-	ret = printf_ptr("testing test_pointer %%p '%010p'\n", NULL);
+	ret = printf_ptr("testing test_pointer %%p '%-20p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
-	
-	ret = printf_ptr("testing test_pointer %%p '%0p'\n", NULL);
+
+	ret = printf_ptr("testing test_pointer %%p '%5p'\n", NULL);
 	printf_ptr("ret is %d\n", ret);
 }
