@@ -6,19 +6,26 @@
 #    By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/05 09:43:48 by skoskine          #+#    #+#              #
-#    Updated: 2021/01/25 19:12:17 by skoskine         ###   ########.fr        #
+#    Updated: 2021/02/25 19:35:05 by skoskine         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRCS = ft_printf.c conversion_specs.c parse_chars.c parse_doubles.c \
+SRCS = $(addprefix $(SRC_DIR), ft_printf.c ft_vasprintf.c ft_asprintf.c ft_dprintf.c \
+parser.c conversion_specs.c parse_chars.c parse_doubles.c \
 parse_signed_integers.c parse_unsigned_integers.c \
-parse_helpers.c parse_pointers.c
+parse_helpers.c parse_pointers.c)
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(addprefix $(OBJ_DIR), $(SRCS:$(SRC_DIR)%.c=%.o))
 
-INCLUDES = -I . -I libft
+SRC_DIR = src/
+OBJ_DIR = obj/
+
+LIBFT = libft/libft.a
+LIBFT_DIR = libft
+
+INCLUDES = -I include -I libft
 
 LDFLAGS = -L libft -l ft -L . -l ftprintf
 
@@ -30,15 +37,20 @@ CFLAGS = -c -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(MAKE) -C libft
+$(NAME): $(OBJS) $(OBJ_DIR) $(LIBFT)
 	@ar rcs $@ $(OBJS)
 
-%.o: %.c
+$(LIBFT): $(LIBFT_DIR)
+	@$(MAKE) -C libft
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@$(CC) $(CFLAGS) -o $@ $< $(INCLUDES)
 
+$(OBJ_DIR):
+	@mkdir $@
+
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C libft clean
 
 fclean: clean
@@ -46,9 +58,5 @@ fclean: clean
 	@$(MAKE) -C libft fclean
 
 re: fclean all
-
-test: all $(TEST_SRCS)
-	$(CC) -o $@ $(TEST_SRCS) $(INCLUDES) $(LDFLAGS)
-	@./$@
 	
 .PHONY: all clean fclean re
