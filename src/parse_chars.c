@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:40:23 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/02 18:46:28 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/18 21:25:56 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ int			parse_string(t_data *specs, char *str, char **result)
 
 	if (str == NULL)
 	{
-		i = 6;
+		i = (specs->has_precision && specs->precision < 6) ?
+		specs->precision : 6;
 		specs->min_field_width = (specs->min_field_width > i) ?
-			(specs->min_field_width - 6) : 0;
+			(specs->min_field_width - i) : 0;
 		*result = parse_str_result(specs, "(null)", i);
 	}
 	else
@@ -74,9 +75,4 @@ int			parse_char(t_data *specs, char c, char **result)
 	if (!(*result = parse_str_result(specs, &c, 1)))
 		return (-1);
 	return (specs->min_field_width + 1);
-}
-
-int			parse_percentage(t_data *specs, char **result)
-{
-	return (parse_char(specs, '%', result));
 }

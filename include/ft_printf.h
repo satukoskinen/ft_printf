@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 09:35:48 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/05 15:22:55 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/18 21:30:08 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ typedef	struct	s_data
 	int			is_zero;
 }				t_data;
 
+int				ft_vasprintf(char **ret, const char *format, va_list ap);
+int				ft_asprintf(char **ret, const char *format, ...);
+int				ft_dprintf(int fd, const char *format, ...);
 int				ft_printf(const char *format, ...);
+int				parse(const char *format, va_list *ap, char **result);
 int				get_conversion_specs(t_data *specs, const char *format);
 int				parse_percentage(t_data *specs, char **result);
 int				parse_string(t_data *specs, char *str, char **result);

@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 21:28:07 by skoskine          #+#    #+#             */
-/*   Updated: 2021/01/24 21:45:07 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/19 16:36:32 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int		get_length_modifier(t_data *specs, const char *format)
 	if (modifier == 'h' || modifier == 'l')
 	{
 		specs->length_modifier[i] = modifier;
-		if (format[++i] == modifier)
-			specs->length_modifier[i] = modifier;
+		if (format[i + 1] == modifier)
+			specs->length_modifier[++i] = modifier;
 	}
 	else
 		specs->length_modifier[i] = modifier;
@@ -39,6 +39,7 @@ int		get_precision(t_data *specs, const char *format)
 	i = 1;
 	specs->has_precision = 1;
 	specs->precision = ft_atoi(&format[i]);
+	specs->zero_precision = specs->precision == 0 ? 1 : 0;
 	while (ft_isdigit(format[i]))
 		i++;
 	return (i);
@@ -65,13 +66,13 @@ int		get_flags(t_data *specs, const char *format)
 	{
 		if (format[i] == '#')
 			specs->alt_form = 1;
-		if (format[i] == '0')
+		else if (format[i] == '0')
 			specs->zero_padding = 1;
-		if (format[i] == ' ')
+		else if (format[i] == ' ')
 			specs->blank_signed = 1;
-		if (format[i] == '-')
+		else if (format[i] == '-')
 			specs->neg_field_width = 1;
-		if (format[i] == '+')
+		else if (format[i] == '+')
 			specs->plus_signed = 1;
 		i++;
 	}
@@ -82,7 +83,8 @@ int		get_conversion_specs(t_data *specs, const char *format)
 {
 	int i;
 
-	i = get_flags(specs, format);
+	i = 0;
+	i += get_flags(specs, format);
 	if (ft_isdigit(format[i]))
 		i += get_min_field_width(specs, &format[i]);
 	if (format[i] == '.')

@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 12:56:17 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/05 17:35:20 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/18 18:59:32 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-size_t add_number(t_data *specs, char *number, char *result)
+size_t	add_number(t_data *specs, char *number, char *result)
 {
 	size_t i;
 
@@ -29,7 +29,7 @@ size_t add_number(t_data *specs, char *number, char *result)
 	return (i);
 }
 
-size_t add_padding(size_t len, char c, char *result)
+size_t	add_padding(size_t len, char c, char *result)
 {
 	size_t i;
 
@@ -39,7 +39,7 @@ size_t add_padding(size_t len, char c, char *result)
 	return (i);
 }
 
-size_t add_prefix(t_data *specs, char *result)
+size_t	add_prefix(t_data *specs, char *result)
 {
 	size_t i;
 
@@ -47,7 +47,7 @@ size_t add_prefix(t_data *specs, char *result)
 	if (specs->is_negative)
 		result[i++] = '-';
 	else if (ft_strchr("difF", specs->conversion) &&
-			 (specs->blank_signed || specs->plus_signed))
+	(specs->blank_signed || specs->plus_signed))
 		result[i++] = specs->plus_signed ? '+' : ' ';
 	else if (specs->conversion == 'x' && specs->alt_form && !specs->is_zero)
 	{
@@ -62,10 +62,10 @@ size_t add_prefix(t_data *specs, char *result)
 	return (i);
 }
 
-char *parse_int_result(t_data *specs, char *number, size_t result_len)
+char	*parse_int_result(t_data *specs, char *number, size_t result_len)
 {
-	char *result;
-	size_t i;
+	char	*result;
+	size_t	i;
 
 	if (!(result = (char *)malloc(sizeof(char) * (result_len + 1))))
 		return (NULL);
