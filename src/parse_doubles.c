@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 14:39:23 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/18 18:58:13 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/28 14:28:29 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-static int	get_int_part_len(double nbr)
+static int	get_int_part_len(char *number)
 {
 	int	len;
 
-	len = 1;
-	while ((nbr > 0 && nbr / 10 >= 1.0) || (nbr < 0 && nbr / 10 <= -1.0))
-	{
+	len = 0;
+	while (number[len] != '.' && number[len] != '\0')
 		len++;
-		nbr /= 10;
-	}
+	if (number[0] == '-')
+		len--;
 	return (len);
 }
 
@@ -52,7 +51,7 @@ char		*parse_double_result(t_data *specs, char *number, size_t len)
 	return (result);
 }
 
-int			get_result_length(t_data *specs, double value)
+int			get_result_length(t_data *specs, double value, char *number)
 {
 	size_t	len;
 
@@ -60,7 +59,7 @@ int			get_result_length(t_data *specs, double value)
 		len = 3;
 	else
 	{
-		len = get_int_part_len(value);
+		len = get_int_part_len(number);
 		if (specs->precision == 0 && specs->alt_form)
 			len++;
 		len += specs->precision + ((specs->precision != 0) ? 1 : 0);
@@ -102,7 +101,7 @@ int			parse_doubles(t_data *specs, va_list *ap, char **result)
 	if (ft_isnan(value) || ft_isposinf(value) || ft_isneginf(value))
 		reset_special_conversion_specs(value, specs);
 	number = ft_dtoa(value, specs->precision);
-	len = get_result_length(specs, value);
+	len = get_result_length(specs, value, number);
 	specs->min_field_width = (specs->min_field_width > len) ?
 		(specs->min_field_width - len) : 0;
 	len += specs->min_field_width;

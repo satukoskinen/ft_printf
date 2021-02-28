@@ -6,7 +6,7 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 09:35:48 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/18 21:30:08 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/28 14:24:50 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ char			*parse_int_result(t_data *specs, char *number,
 size_t			add_padding(size_t len, char c, char *result);
 size_t			add_prefix(t_data *specs, char *result);
 size_t			add_number(t_data *specs, char *number, char *result);
+char			*ft_dtoa(double nbr, size_t precision);
+long double		round_double(double nbr, size_t precision);
+int				rounds_half_to_even(double nbr, size_t precision);
 
 #endif
