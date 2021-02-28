@@ -6,12 +6,11 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 14:25:12 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/28 14:27:49 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/28 19:03:22 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <math.h>
 
 static int		has_exact_fraction(double nbr, size_t precision, double div)
 {
@@ -19,7 +18,7 @@ static int		has_exact_fraction(double nbr, size_t precision, double div)
 	double		frac_part;
 	uintmax_t	integral_frac;
 
-	frac_part = modf(ft_fabs(nbr), &int_part);
+	frac_part = ft_modf(ft_fabs(nbr), &int_part);
 	integral_frac = (uintmax_t)(frac_part * div * 10);
 	if (integral_frac % ft_uintmax_pow(5, precision + 1) == 0)
 		return (1);
@@ -52,7 +51,7 @@ static double	round_half_to_even(double nbr, double div, size_t precision)
 		tmp /= 10;
 		precision = 1;
 	}
-	frac_part = modf(tmp, &int_part);
+	frac_part = ft_modf(tmp, &int_part);
 	while (precision-- > 0)
 		frac_part *= 10;
 	if ((uintmax_t)frac_part % 2 == 0)

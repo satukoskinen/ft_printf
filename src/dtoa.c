@@ -6,13 +6,12 @@
 /*   By: skoskine <skoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 16:02:24 by skoskine          #+#    #+#             */
-/*   Updated: 2021/02/28 14:49:55 by skoskine         ###   ########.fr       */
+/*   Updated: 2021/02/28 19:18:54 by skoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
-#include <math.h>
 
 static int		int_part_len(long double nbr)
 {
@@ -86,8 +85,7 @@ char			*ft_dtoa(double nbr, size_t precision)
 		return (ft_strdup("nan"));
 	else if (ft_isposinf(nbr) || ft_isneginf(nbr))
 		return (ft_isposinf(nbr) ? ft_strdup("inf") : ft_strdup("-inf"));
-	frac_part = modf(nbr, &int_part);
-	frac_part = round_double(frac_part, precision);
+	frac_part = round_double(ft_modf(nbr, &int_part), precision);
 	if (frac_part >= 1.0 || frac_part <= -1)
 	{
 		int_part += (int)frac_part;
